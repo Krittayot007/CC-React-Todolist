@@ -1,0 +1,13 @@
+
+
+.header {
+    background-color: wheat;
+    padding: 10px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+
+    & > p {
+        color: grey;
+    }
+}
