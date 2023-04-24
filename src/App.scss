@@ -3,6 +3,10 @@ $grey : rgb(234,234,234);
 $sidebar-width: 300px;
 $header-height: 44px;
 
+li {
+    list-style: none;
+}
+
 .container {
     display: grid;
     grid-template-rows: $header-height calc(100vh - $header-height);
@@ -29,9 +33,62 @@ $header-height: 44px;
 }
 
 .sidebar {
-    background-color: aquamarine;
+    // background-color: aquamarine;
     grid-row: 2/3;
     grid-column: 1/2;
+    position: sticky;
+    // position: fixed;
+    // left: 0;
+    // top: 0;
+    // Inside Content
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px 30px;
+
+    &__middle {
+        display: flex;
+        gap: 10px;
+        font-size: 20px;
+        align-items: center;
+
+        & > span {
+            display: flex;
+        }
+        & > h6 {
+            font-size: 22px;
+        }
+    }
+}
+
+.generic__lists,
+.project__lists {
+    & > li {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 10px;
+        margin: 2px 0px;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: $grey;
+        }
+
+        & > span {
+            display:flex;
+        }
+
+        & > h6 {
+            font-weight: 500;
+        }
+    }
+}
+
+.active {
+    background-color: $grey;
 }
 
 .content {
