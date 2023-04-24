@@ -1,19 +1,8 @@
-import "./App.scss";
-import { FaHome, FaInbox, FaCalendar, FaCalendarAlt, FaChevronDown } from "react-icons/fa";
 
-function App() {
-  return (
-    <div className="container">
-      {/* Header */}
-      <header className="header">
-        <span>
-          <FaHome />
-        </span>
-        <div>CC-Todolist</div>
-      </header>
-
-      {/* Sidebar */}
-      <aside className="sidebar">
+import { FaInbox, FaCalendar, FaCalendarAlt, FaChevronDown } from "react-icons/fa";
+export function Sidebar() {
+    return (
+        <aside className="sidebar">
         <section className="sidebar__generic">
           <ul className="generic__lists">
             <li className="active">
@@ -59,12 +48,5 @@ function App() {
           </ul>
         </section>
       </aside>
-      
-
-      {/* Content */}
-      <main className="content">Content</main>
-    </div>
-  );
+    );
 }
-
-export default App;
