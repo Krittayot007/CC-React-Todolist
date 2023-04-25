@@ -1,17 +1,22 @@
 import styles from './TodoForm.module.scss'
 import React, {useState} from 'react';
 
-export function TodoForm ({onSetIsShowForm , submitText, oldTask}) {
+export function TodoForm ({onSetIsShowForm, onAddTodo, submitText, oldTask}) {
 
   const [task, setTask] = useState(oldTask || '');
   const [isError, setIsError] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if(task.trim() === '') {
       setIsError(true);
       return;
+    } else {
+      // validate pass , execute add to do
+      onAddTodo(task) //from <TodoContent />
     }
+
     // จบ add mode 
     onSetIsShowForm(false);
   };
