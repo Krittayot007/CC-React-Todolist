@@ -1,21 +1,45 @@
 import styles from './TodoItem.module.scss';
+import { useState } from 'react';
 import { HiCheck, HiPencil, HiTrash } from 'react-icons/hi';
+import { TodoForm } from './TodoForm';
 
-export function TodoItem () {
+export function TodoItem ({todo}) {
+  // check === done
+  const [isCheck, setIsCheck] = useState(todo.status);
+  const [isEdit, setisEdit] = useState(false);
+
+  const handleToggleCheck = () => {
+    setIsCheck(!isCheck);
+  }
+
+  const handleOpenEditMode = () => {
+    setisEdit(true);
+  }
+
+  const handleDeleteTodo = () => {
+		console.log("delete")
+	}
+
+  let checkboxStyle = isCheck ?  styles.checkbox__icon__done:  styles.checkbox__icon;
+  let taskStyle = isCheck ? styles.done : '';
+
     return (
-        <li className={styles.todo__item__container}>
-              <div className={styles.checkbox__container}>
-                <HiCheck className={styles.checkbox__icon} />
+      <>
+        { !isEdit ? (<li className={styles.todo__item__container}>
+              <div className={styles.checkbox__container} onClick={handleToggleCheck}>
+                <HiCheck className={checkboxStyle} />
               </div>
-              <p className={styles.done}>{`task`}</p>
+              <p className={taskStyle}>{todo.task}</p>
         
-              <div className={styles.edit__icon}>
+              <div className={styles.edit__icon} onClick={handleOpenEditMode}>
                 <HiPencil />
               </div>
         
-              <div className={styles.delete__icon}>
+              <div className={styles.delete__icon} onClick={handleDeleteTodo}>
                 <HiTrash />
               </div>
-        </li>
+        </li>) :
+        <TodoForm submitText='Edit task' onSetIsShowForm={setisEdit} oldTask='old-task-name'/>}
+      </>
     );
 } 

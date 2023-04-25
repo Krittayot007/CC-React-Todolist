@@ -1,9 +1,9 @@
 import styles from './TodoForm.module.scss'
 import React, {useState} from 'react';
 
-export function TodoForm ({onSetIsAddMode}) {
+export function TodoForm ({onSetIsShowForm , submitText, oldTask}) {
 
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState(oldTask || '');
   const [isError, setIsError] = useState(false)
 
   const handleSubmit = (e) => {
@@ -13,11 +13,15 @@ export function TodoForm ({onSetIsAddMode}) {
       return;
     }
     // จบ add mode 
-    onSetIsAddMode(false);
+    onSetIsShowForm(false);
   };
   const handleClickCancel = (e) => {
-    console.log("Cancel");
-    onSetIsAddMode(false);
+    // // from Add todo / add
+    // onSetIsAddMode?.(false);
+    // // from Todo item / edit
+    // onSetIsEditMode?.(false);
+    // for Add / foe Edit
+    onSetIsShowForm?.(false);
   };
   const handleChangeInput = (e) => {
     setIsError(false);
@@ -32,7 +36,7 @@ export function TodoForm ({onSetIsAddMode}) {
             {isError && <p className={styles.todo__error}>Title is required</p>}
             <div className={styles.todo__form__buttons}>
               <button type='button' onClick={handleClickCancel}>Cancel</button>
-              <button type='submit'>Add Task</button>
+              <button type='submit'>{submitText}</button>
             </div>
           </div>
         </form>
