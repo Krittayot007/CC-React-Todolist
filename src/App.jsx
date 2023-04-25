@@ -7,13 +7,8 @@ import { TodoContent } from "./components/Todo/TodoContent";
 function App() {
   return (
     <div className="container">
-      {/* Header */}
       <Header />
-      
-      {/* Sidebar */}
       <Sidebar />
-      
-      {/* Content */}
       <TodoContent />
     </div>
   );
