@@ -1,12 +1,24 @@
 import styles from './TodoHeader.module.scss'
+import {getFormattedDate} from '../../utils/DateUtills'
+// export function TodoHeader(props) {
+//     const now = new Date();
+//     const options = { weekday: 'short', month: 'short', day: 'numeric' };
+//     // console.log(now.toLocaleDateString('en-US',options))
+//     console.log(props.title)  // Today
+//     console.log(props.titel) // undefined
+//     return (
+//         <div className={styles.header}>
+//             <h1>{props.title}</h1>
+//             <p>{now.toLocaleDateString('en-US', options)}</p>
+//         </div>
+//     );
+// }
 
-export function TodoHeader () {
-    const now = new Date();
-    const options = {weekday: 'short', month: 'short', day:'numeric'};
+export function TodoHeader({title}) {
     return (
         <div className={styles.header}>
-            <h2>Inbox</h2>
-            <p>{now.toLocaleDateString('en-US',options)}</p>
+            <h1>{title}</h1>
+            <p>{getFormattedDate(Date.now())}</p>
         </div>
     );
-};
+}

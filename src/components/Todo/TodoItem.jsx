@@ -2,8 +2,9 @@ import styles from './TodoItem.module.scss';
 import { useState } from 'react';
 import { HiCheck, HiPencil, HiTrash } from 'react-icons/hi';
 import { TodoForm } from './TodoForm';
+import { getFormattedDate } from '../../utils/DateUtills';
 
-export function TodoItem ({todo}) {
+export function TodoItem ({todo, onEditTodo, onDeleteTodo}) {
   // check === done
   const [isCheck, setIsCheck] = useState(todo.status);
   const [isEdit, setisEdit] = useState(false);
@@ -18,6 +19,7 @@ export function TodoItem ({todo}) {
 
   const handleDeleteTodo = () => {
 		console.log("delete")
+    onDeleteTodo(todo.id);
 	}
 
   let checkboxStyle = isCheck ?  styles.checkbox__icon__done:  styles.checkbox__icon;
@@ -30,7 +32,7 @@ export function TodoItem ({todo}) {
                 <HiCheck className={checkboxStyle} />
               </div>
               <p className={taskStyle}>{todo.task}</p>
-        
+              <p>{getFormattedDate(todo.due_date)}</p>
               <div className={styles.edit__icon} onClick={handleOpenEditMode}>
                 <HiPencil />
               </div>
@@ -39,7 +41,7 @@ export function TodoItem ({todo}) {
                 <HiTrash />
               </div>
         </li>) :
-        <TodoForm submitText='Edit task' onSetIsShowForm={setisEdit} oldTask='old-task-name'/>}
+        <TodoForm submitText='Edit task' onSetIsShowForm={setisEdit} todo={todo} onEditTodo={onEditTodo}/>}
       </>
     );
 } 

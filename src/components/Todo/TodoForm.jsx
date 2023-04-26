@@ -1,9 +1,22 @@
 import styles from './TodoForm.module.scss'
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
-export function TodoForm ({onSetIsShowForm, onAddTodo, submitText, oldTask}) {
+TodoForm.propTypes = {
+    submitText: PropTypes.string.isRequired,
+    onSetIsShowForm: PropTypes.func.isRequired,
+    onAddTodo: PropTypes.func,
+    onEditTodo: PropTypes.func,
+    todo : PropTypes.oneOfType([
+      PropTypes.object,
+      undefined
+    ])
+}
 
-  const [task, setTask] = useState(oldTask || '');
+
+export function TodoForm ({onSetIsShowForm, onAddTodo, onEditTodo, submitText, todo}) {
+
+  const [task, setTask] = useState(todo?.task || '');
   const [isError, setIsError] = useState(false)
 
   const handleSubmit = (e) => {
@@ -12,10 +25,11 @@ export function TodoForm ({onSetIsShowForm, onAddTodo, submitText, oldTask}) {
     if(task.trim() === '') {
       setIsError(true);
       return;
-    } else {
-      // validate pass , execute add to do
-      onAddTodo(task) //from <TodoContent />
     }
+      // validate pass , execute add to do
+       //from <TodoContent />
+      if(todo) onEditTodo(todo.id,task);
+      else onAddTodo(task);
 
     // จบ add mode 
     onSetIsShowForm(false);

@@ -22,11 +22,44 @@ export function TodoContent() {
     setTodos(currentState => [newtTodoObj, ...currentState]);
   }
 
+  // UPDATE-TODO
+  const handleEdittodo = (todoId, updateObj) => {
+
+    // Modufy Array
+    // #1 FindIndex
+    const foundedIndex = todos.findIndex(todoObj => todoObj.id === todoId)
+
+    // notfounded
+    if(foundedIndex === -1) return;
+
+    // founded
+    const newTodos = [...todos];
+    newTodos[foundedIndex] = {...newTodos[foundedIndex],task : updateObj};
+    setTodos(newTodos);
+  }
+
+  const handleDelete = (todoId) => {
+
+    // Logic : Manipulate Array
+
+    // #1
+    // const foundedIndex = todos.findIndex(todoObj => todoObj.id === todoId)
+    // if(foundedIndex == -1) return;
+    // const newTodos = [...todos]
+    // newTodos.splice(foundedIndex,1)
+    // setTodos(newTodos)
+
+    // #2
+    setTodos(curr=> curr.filter((todoObj)=> todoObj.id !== todoId))
+}
+
+  
+
     return (
       <main className="content">
         <TodoHeader />
         <AddTodo onAddTodo={handleAddTodo}/>
-        <TodoLists todos={todos}/>
+        <TodoLists todos={todos} onEditTodo={handleEdittodo} onDeleteTodo={handleDelete}/>
       </main>
     );
 }
