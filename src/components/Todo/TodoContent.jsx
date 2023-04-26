@@ -2,12 +2,10 @@ import { v4 as uuidv4} from 'uuid'
 import { AddTodo } from './AddTodo';
 import { TodoHeader } from './TodoHeader';
 import { TodoLists } from './TodoLists'
-import mockData from '../../data/todos.json'
-import { useState } from 'react';
+// import mockData from '../../data/todos.json'
+// import { useState } from 'react';
 
-export function TodoContent() {
-
-  const [todos, setTodos] = useState(mockData);
+export function TodoContent({todos, setTodos}) {
 
   const handleAddTodo = (newtask) => {
     // มี new todo
@@ -35,6 +33,11 @@ export function TodoContent() {
     // founded
     const newTodos = [...todos];
     newTodos[foundedIndex] = {...newTodos[foundedIndex],task : updateObj};
+    newTodos[foundedIndex] = Object.assign({},newTodos[foundedIndex],updateObj)
+        
+        // ...newTodos[foundedIndex] === {id:1, task : "AAA",status:false : due_date: "2023-04-29"}
+        // 
+        // { "id": 4, "task": "In congue. Etiam justo.", "status": false, "due_date": "2023-05-04" },
     setTodos(newTodos);
   }
 
@@ -57,7 +60,7 @@ export function TodoContent() {
 
     return (
       <main className="content">
-        <TodoHeader />
+        <TodoHeader title="Today"/>
         <AddTodo onAddTodo={handleAddTodo}/>
         <TodoLists todos={todos} onEditTodo={handleEdittodo} onDeleteTodo={handleDelete}/>
       </main>
