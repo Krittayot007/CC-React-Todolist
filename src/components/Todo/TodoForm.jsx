@@ -14,7 +14,7 @@ TodoForm.propTypes = {
 // TodoForm => call in 2 Mode
 // Mode-1 : Add
 // Mode-2 : Edit
-export function TodoForm({submitText, onSetIsShowForm, todo, onEditTodo, setTodos,setFilterList }) {
+export function TodoForm({submitText, onSetIsShowForm, todo, setTodos,setFilterList,updateTodo  }) {
     // # 1 : Logic Section
     const [task, setTask] = useState(todo?.task || '');
     const [isError, setIsError] = useState(false);
@@ -50,7 +50,7 @@ export function TodoForm({submitText, onSetIsShowForm, todo, onEditTodo, setTodo
         // validate passed , execute addTodo
         // onAddTodo(task) // from <TodoContent/>
         if (todo) {
-            onEditTodo(todo.id, { task }); // send => 1.newTask 2. todoId
+            updateTodo(todo, {task})
         } else {
             let now = new Date().toISOString().slice(0,10)
             let todoObj = {task:task,status:false, date:now }
