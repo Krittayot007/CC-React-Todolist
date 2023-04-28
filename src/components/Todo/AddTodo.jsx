@@ -1,23 +1,34 @@
-import styles from "./AddTodo.module.scss";
-import { TodoForm } from "./TodoForm";
-import { useState } from "react";
+import styles from './AddTodo.module.scss';
+import { useState } from 'react';
+import { TodoForm } from './TodoForm';
 
-export function AddTodo({onAddTodo}) {
-  const [isAddMode, setIsAddMode] = useState(false);
-  const handleClickAddTask = () => {
-    setIsAddMode(true);
-  }
+export function AddTodo({setTodos,setFilterList}) {
+    // # Logic & State
+    const [isAddMode, setIsAddMode] = useState(false);
 
-  return (
-    <>
-      {!isAddMode ? (
-        <div className={styles.add__todo} onClick={handleClickAddTask}>
-          <span>+</span>
-          <h3>Add task</h3>
-        </div>
-      ) : (
-        <TodoForm  onSetIsShowForm={setIsAddMode} submitText='Add task' onAddTodo={onAddTodo}/>
-      )}
-    </>
-  );
+
+
+    const handleClickAddTask = () => {
+        // console.log("Open form")
+        setIsAddMode(true)
+    }
+
+    // # UI
+    return (
+        <>
+            {!isAddMode ? (
+                <div className={styles.add__todo} onClick={handleClickAddTask} >
+                    <span>+</span>
+                    <h3>Add task</h3>
+                </div>
+            ) : (
+                <TodoForm  
+                submitText="Add Task"
+                onSetIsShowForm={setIsAddMode}
+                setTodos={setTodos}
+                setFilterList={setFilterList}
+                />
+            )}
+        </>
+    );
 }

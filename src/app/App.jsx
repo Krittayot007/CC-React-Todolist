@@ -1,77 +1,83 @@
+import './App.scss'; // Global
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'
 
-import "./App.scss"; 
-import { Header } from "../components/Header";
-import { Sidebar } from "../components/Sidebar";
-import { TodoContent } from "../components/Todo/TodoContent";
-// import mockData from '../data/todos.json'
+import { Header } from '../components/Header';
+import { Sidebar } from '../components/Sidebar';
+import { TodoContent } from '../components/Todo/TodoContent';
+// import allTodoMock from '../data/todos.json';
 import { getSevenDayRange } from '../utils/DateUtills';
 
 function App() {
-  // ## LOGIC : HOOK
-  const [todos, setTodos] = useState([]);
-  const [filterList,setFilterList] = useState([])
+    // ## LOGIC : HOOK
+    const [todos, setTodos] = useState([]); // Orginal todos 
+    const [filterList,setFilterList] = useState([]) // filter todos
+    
+    useEffect(()=>{
+        // Run After DID MOUNT (เกิดแล้ว)
 
-  useEffect(() => {
-    // RUN After DID MOUNT (เกิดแล้ว)
-    axios ({
-      method: 'get',
-      url : 'http://localhost:8080/todos'
-    }).then (response => {
-      console.log(response.status);
-      console.log(response);
-      console.log(response.data);
-      console.log(response.data.todos);
+        async function fetchAllTodo () {
+            try {
+                // let response = await axios({method:'get', url: "http://localhost:8080/todos"})
+                let response = await axios.get("http://localhost:8080/todos")
+                let todoList = response.data.todos;
+                setTodos(todoList)
+                setFilterList(todoList)
+                
+            } catch (error) {
+                console.log(error.response.status)
+            }
+        }
 
-      let todoList = response.data.todos;
-      setTodos(todoList);
-      setFilterList(todoList);
+        fetchAllTodo()
 
-    }).catch(err => {
-      console.log(err.response.status)
-     }) 
-  }, [])
+       
+    },[])
 
-// ## LOGIC : FN 
-// Fillter Todo
-const handleFilterLists = (index) => {
-  const [nowStr, nextSevenStr] = getSevenDayRange();
-  let filteredTodo = [...todos]
+    useEffect(()=> {
 
-  // FILTER LOGIC : Schema for fillter "2023-04-29" == YYYY-MM-DD
-  if (index == 0) {
-    setFilterList(todos)
-}
-else if (index === 1) {
-    filteredTodo = todos.filter((todoObj) => todoObj.date === nowStr);
-    setFilterList(filteredTodo)
-}
-else if (index === 2) {
-    filteredTodo = todos.filter(
-        (todoObj) => todoObj.date >= nowStr && todoObj.date <= nextSevenStr
+    })
+
+    // ## LOGIC : FN ต่างๆ
+    // Filter Todo
+    const handleFilterLists = (index) => {
+        const [nowStr, nextSevenStr] = getSevenDayRange();
+
+        let filteredTodo = [...todos];
+
+        // FILTER LOGIC : Schema for fillter "2023-04-29" == YYYY-MM-DD
+        if (index === 0) {
+            setFilterList(todos)
+        }
+        else if (index === 1) {
+            filteredTodo = todos.filter((todoObj) => todoObj.date === nowStr);
+            setFilterList(filteredTodo)
+        }
+        else if (index === 2) {
+            filteredTodo = todos.filter(
+                (todoObj) => todoObj.date >= nowStr && todoObj.date <= nextSevenStr
+            );
+            setFilterList(filteredTodo)
+        }
+            
+    };
+
+    // Search Todo 
+    const handleSearch = (searchText) => {
+
+        const newTodo = todos.filter((todoObj)=> todoObj.task.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()))
+        // setTodos(newTodo)
+        setFilterList(newTodo)
+
+    }
+
+    return (
+        <div className='container'>
+            <Header onSearchText={handleSearch}/>
+            <Sidebar onSelectTab={handleFilterLists} />
+            <TodoContent todos={filterList} setTodos={setTodos} setFilterList={setFilterList}/>
+        </div>
     );
-    setFilterList(filteredTodo)
-}
-  // setTodos(filteredTodo);
-  setFilterList(filteredTodo)
-};
-
-  // Serach Todo
-  const handleSearch = (searchText) => {
-        
-    const newTodo = todos.filter((todoObj)=> todoObj.task.includes(searchText))
-    setFilterList(newTodo)
-
-}
-
-  return (
-    <div className="container">
-      <Header onSearchText={handleSearch}/>
-      <Sidebar onSelectTab={handleFilterLists}/>
-      <TodoContent todos={filterList} setTodos={setTodos}/>
-    </div>
-  );
 }
 
 export default App;
